@@ -1,4 +1,4 @@
-package org.asdfgamer.arma.tools.datatools;
+package org.asdfgamer.arma_tools.datatools;
 
 /**
  *

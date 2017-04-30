@@ -1,4 +1,4 @@
-package org.asdfgamer.arma.tools.gui;
+package org.asdfgamer.arma_tools.gui;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -7,7 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 
-public class FXMLController implements Initializable
+public class AuswahlfensterController implements Initializable
 {
 
     @FXML
