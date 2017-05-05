@@ -21,8 +21,41 @@ import org.asdfgamer.hilfreich.FileUtil;
  * @author ASDFGamer
  */
 public enum Einstellungen {
-
-    test("Testwert");
+    
+    /**
+     * Dies ist die IP des Servers
+     */
+    serverip("localhost"),
+    
+    /**
+     * Dies ist der Name des Servers
+     */
+    servername("Test"),
+    
+    /**
+     * Dies gibt an ob es eine mySQLDatenbank gibt auf die Zugegriffen werden soll.
+     */
+    mySQL(true),
+    
+    /**
+     * Der MySQL Port des Servers
+     */
+    mySQLPort(3306),
+    
+    /**
+     * Der Strukturname des MySQL Servers
+     */
+    mySQLStruktur("ni449356_1_DB"),
+    
+    /**
+     * Dies ist der Benutztername für MySQL
+     */
+    mySQLBenutzername("sqluser"),
+    
+    /**
+     * Dies ist das Passwort für MySQL
+     */
+    mySQLPasswort("sqluserpw");
     /**
      * Der Logger den wir benutzen.
      */

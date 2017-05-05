@@ -4,7 +4,9 @@ import java.net.URL;
 import java.util.logging.Logger;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 
 /**
@@ -12,7 +14,7 @@ import java.util.logging.Level;
  *
  * @author ASDFGamer
  */
-public class LoadMySQL
+public class MySQLTools
 {
 
     /**
@@ -23,7 +25,7 @@ public class LoadMySQL
     /**
      * Der normale LOG.
      */
-    private final static Logger LOG = Logger.getLogger(LoadMySQL.class.getName());
+    private final static Logger LOG = Logger.getLogger(MySQLTools.class.getName());
 
     /**
      * Dies erstellt ein neues Objekt um mit einer MySQL Daatenbank umzugehen.
@@ -33,7 +35,7 @@ public class LoadMySQL
      *                 "jdbc:mysql://localhost/test?"+"user=minty&password=greatsqldb"
      * @throws IllegalArgumentException Dies wird geworfen, wenn die Connection nicht zustandekommt.
      */
-    public LoadMySQL(String addresse) throws IllegalArgumentException
+    public MySQLTools(String addresse) throws IllegalArgumentException
     {
         LOG.info("Es wird versucht sich mit der MySQL Datenbank " + addresse + " zu verbinden.");
         try
@@ -65,4 +67,32 @@ public class LoadMySQL
             throw new IllegalArgumentException("Es konnte keine verbindung zu der angegebenen Adresse erstellt werden.");
         }
     }
+    
+    public String getInfos()
+    {
+        try
+        {
+            return "Catalog: " + connection.getCatalog() + " Schema: " + connection.getSchema();
+        } catch (SQLException ex)
+        {
+            LOG.warning("Es gab ein Problem bei abfragen der Infos von der Connection.");
+            return null;
+        }
+    }
+    
+    public ResultSet executeStatement(String anfrage)
+    {
+        try
+        {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(anfrage);
+            return resultSet;
+        } catch (SQLException ex)
+        {
+            LOG.log(Level.SEVERE, "Es gab Probleme beim erstellen eines Statements.");
+            return null;
+        }
+    }
+    
+    
 }
