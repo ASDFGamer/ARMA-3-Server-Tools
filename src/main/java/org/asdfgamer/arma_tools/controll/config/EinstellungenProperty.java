@@ -1,5 +1,5 @@
 
-package org.asdfgamer.arma_tools.config;
+package org.asdfgamer.arma_tools.controll.config;
 
 import java.util.logging.Logger;
 

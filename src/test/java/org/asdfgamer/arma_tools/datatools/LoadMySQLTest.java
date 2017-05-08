@@ -16,7 +16,8 @@
  */
 package org.asdfgamer.arma_tools.datatools;
 
-import org.asdfgamer.arma_tools.config.Einstellungen;
+import org.asdfgamer.arma_tools.controll.mySQL.MySQLTools;
+import org.asdfgamer.arma_tools.controll.config.Einstellungen;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

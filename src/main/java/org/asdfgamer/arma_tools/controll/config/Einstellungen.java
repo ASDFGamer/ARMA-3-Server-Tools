@@ -1,4 +1,4 @@
-package org.asdfgamer.arma_tools.config;
+package org.asdfgamer.arma_tools.controll.config;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -55,7 +55,13 @@ public enum Einstellungen {
     /**
      * Dies ist das Passwort für MySQL
      */
-    mySQLPasswort("sqluserpw");
+    mySQLPasswort("sqluserpw"),
+    
+    /**
+     * Dies ist der Pfad zu den Arma Tools falls diese installiert sind.
+     */
+    ArmaToolsPfad("");
+    
     /**
      * Der Logger den wir benutzen.
      */

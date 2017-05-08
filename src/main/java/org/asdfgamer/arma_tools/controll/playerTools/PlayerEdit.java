@@ -14,11 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.asdfgamer.arma_tools.datatools;
+package org.asdfgamer.arma_tools.controll.playerTools;
 
+import org.asdfgamer.arma_tools.controll.mySQL.MySQLTools;
 import java.util.Date;
 import java.util.logging.Logger;
-import org.asdfgamer.arma_tools.config.Einstellungen;
+import org.asdfgamer.arma_tools.controll.config.Einstellungen;
 
 /**
  * Diese Klasse liefert Daten über einen bestimmten Spieler.
@@ -68,158 +69,6 @@ public class PlayerEdit
         {
             LOG.warning("Die Tabelle 'players' existiert nicht in der Struktur '" + Einstellungen.mySQLStruktur.getWert() + "'.");
         }
-    }
-    
-    /**
-     * Dies gibt den Playernamen zurück.
-     * @return Der Name des Spielers.
-     */
-    public String getPlayerName()
-    {
-        
-    }
-    
-    /**
-     * Dies gibt die uid des Spielers zurück.
-     * @return Die uid des Spielers.
-     */
-    public String getPlayeruid()
-    {
-        
-    }
-    
-    /**
-     * Dies gibt alle Infos zu einem Spieler aus.
-     * @return 
-     */
-    public String[] getPlayerData()
-    {
-        
-    }
-    
-    public int getCash()
-    {
-        
-    }
-    
-    public boolean setCash(int cash)
-    {
-        
-    }
-    
-    public int getDeposit()
-    {
-        
-    }
-    
-    public boolean setDeposit(int bankacc)
-    {
-        
-    }
-    
-    public int getCopLevel()
-    {
-        
-    }
-    
-    public boolean setCopLevel(int copLevel)
-    {
-        
-    }
-    
-    public int getMedicLevel()
-    {
-        
-    }
-    
-    public boolean setMedicLevel(int medicLevel)
-    {
-        
-    }
-    
-    public String[] getCivLicenses()
-    {
-        
-    }
-    
-    public boolean setCivLicenses(String[] civLicenses)
-    {
-        
-    }
-    
-    public boolean addCivLicense(String civLicense)
-    {
-        
-    }
-    
-    public boolean removeCivLicense(String civLicense)
-    {
-        
-    }
-    
-    public String[] getCopLicenses()
-    {
-        
-    }
-    
-    public boolean setCopLicenses(String[] copLicenses)
-    {
-        
-    }
-    
-    public boolean addCopLicense(String copLicense)
-    {
-        
-    }
-    
-    public boolean removeCopLicense(String copLicense)
-    {
-        
-    }
-    
-    public String[] getMedicLicenses()
-    {
-        
-    }
-    
-    public boolean setMedicLicenses(String[] medicLicenses)
-    {
-        
-    }
-    
-    public boolean addMedicLicense(String medicLicense)
-    {
-        
-    }
-    
-    public boolean removeMedicLicense(String medicLicense)
-    {
-        
-    }
-    
-    public Date getLastPlaytime()
-    {
-        
-    }
-    
-    public Date getFirstPlaytime()
-    {
-        
-    }
-    
-    public Date getCopPlaytime()//Cop == west
-    {
-        
-    }
-    
-    public Date getMedicPlaytime()//Medic == independent
-    {
-        
-    }
-    
-    public Date getCivPlaytime()
-    {
-        
     }
 
     private int nameToId(String name)

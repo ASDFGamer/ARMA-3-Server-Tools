@@ -14,10 +14,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.asdfgamer.arma_tools.datatools;
+package org.asdfgamer.arma_tools.controll.playerTools;
 
+import org.asdfgamer.arma_tools.controll.mySQL.MySQLTools;
 import java.util.logging.Logger;
-import org.asdfgamer.arma_tools.config.Einstellungen;
+import org.asdfgamer.arma_tools.controll.config.Einstellungen;
 
 /**
  * Diese Klasse liefert Daten über alle Spieler.
@@ -47,16 +48,16 @@ public class PlayerData
     
     public String[] getPlayerNames()
     {
-        
+        throw new UnsupportedOperationException("Not supported yet.");
     }
     
     public int getPlayerAnzahl()
     {
-        
+        throw new UnsupportedOperationException("Not supported yet.");
     }
     
     public int getPlayerUIDs()
     {
-        
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

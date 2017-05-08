@@ -1,4 +1,4 @@
-package org.asdfgamer.arma_tools.datatools;
+package org.asdfgamer.arma_tools.controll.mySQL;
 
 import java.net.URL;
 import java.util.logging.Logger;
@@ -32,7 +32,7 @@ public class MySQLTools
      *
      * @param addresse Die Adresse zu der Datenbank in dem Format:
      *                 jdbc:subprotocol:subname, z.B.
-     *                 "jdbc:mysql://localhost/test?"+"user=minty&password=greatsqldb"
+     *                 "jdbc:mysql://localhost/test?user=minty\{@literal &}password=greatsqldb"
      * @throws IllegalArgumentException Dies wird geworfen, wenn die Connection nicht zustandekommt.
      */
     public MySQLTools(String addresse) throws IllegalArgumentException
@@ -92,6 +92,11 @@ public class MySQLTools
             LOG.log(Level.SEVERE, "Es gab Probleme beim erstellen eines Statements.");
             return null;
         }
+    }
+
+    public boolean tableExists(String players)
+    {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
     
     

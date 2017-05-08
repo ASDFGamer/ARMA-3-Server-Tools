@@ -1,4 +1,4 @@
-package org.asdfgamer.arma_tools.config;
+package org.asdfgamer.arma_tools.controll.config;
 
 /**
  * Diese Klasse speichert Konstanten für das gesamte Programm.
