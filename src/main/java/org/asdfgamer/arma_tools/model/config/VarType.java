@@ -14,15 +14,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.asdfgamer.arma_tools.model.shop;
-
-import java.util.List;
+package org.asdfgamer.arma_tools.model.config;
 
 /**
- * Dies ist eine Kategorie von Items die in einem Shop vorhanden sien können.
- * @author ASDFGamer
+ * Dies sind die Möglichen Typen für den VariablenTyp des Levels.
+ * @author ASFDGamer
  */
-public class ShopItems
+public enum VarType
 {
-    private List<ShopItem> items;
+    SCALAR,
+    BOOL,
+    EQUAL;
 }

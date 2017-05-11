@@ -14,36 +14,34 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.asdfgamer.arma_tools.model.shop;
+package org.asdfgamer.arma_tools.model.config;
 
 /**
  *
- * @author wildh
+ * @author ASFDGamer
  */
-public class Shop
+public enum ConfigFile
 {
-    public Shop(String name)
+    Clothing(true),
+    Gather(false),
+    Licenses(false),
+    Master(false),
+    Process(false),
+    SpawnPoints(false),
+    SpyGlass(false),
+    Vehicles(false),
+    vItems(false),
+    Weapons(true);
+
+    private boolean implemented;
+    
+    private ConfigFile(boolean implemented)
     {
-        throw new UnsupportedOperationException("Not supported yet.");
+        this.implemented = implemented;
     }
     
-    public boolean addTitle(String title)
+    public boolean isImplemented()
     {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-    
-    public boolean addLicense(String license)
-    {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-    
-    public boolean addSide(String side)
-    {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-    
-    public boolean addShopItems(ShopItems items)
-    {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return this.implemented;
     }
 }

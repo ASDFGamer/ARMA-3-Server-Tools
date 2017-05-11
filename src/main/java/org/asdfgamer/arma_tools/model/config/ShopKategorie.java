@@ -14,13 +14,33 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.asdfgamer.arma_tools.model.shop;
+package org.asdfgamer.arma_tools.model.config;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Dies ist ein Item in einem Shop.
+ * Dies enthält alle Shops die in der Kategorie sind (in der Configfile).
  * @author ASDFGamer
  */
-public class ShopItem
+public class ShopKategorie
 {
+    private final String KATEGORIE_NAME;
     
+    private final List<Shop> SHOPS = new ArrayList<>();
+    
+    public ShopKategorie(String name)
+    {
+        this.KATEGORIE_NAME = name;
+    }
+    
+    public boolean addShop(Shop shop)
+    {
+        return this.SHOPS.add(shop);
+    }
+    
+    public List<Shop> getShops()
+    {
+        return this.SHOPS;
+    }
 }

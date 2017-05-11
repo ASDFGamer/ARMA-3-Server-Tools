@@ -14,21 +14,23 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.asdfgamer.arma_tools.model.shop;
+package org.asdfgamer.arma_tools.controll.guicontroller;
+
+import java.net.URL;
+import java.util.ResourceBundle;
+import javafx.fxml.Initializable;
 
 /**
- * Dies enthält alle Shops die in der Kategorie sind (in der Configfile).
- * @author ASDFGamer
+ * Dies ist die Superklasse aller GUI-Controller.
+ * @author ASFDGamer
  */
-public class ShopKategorie
+public abstract class Controller implements Initializable
 {
-    public ShopKategorie(String name)
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources)
     {
-        throw new UnsupportedOperationException("Not supported yet.");
+        //TODO
     }
     
-    public boolean addShop(Shop shop)
-    {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
 }

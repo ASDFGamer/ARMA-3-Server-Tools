@@ -1,5 +1,6 @@
-package org.asdfgamer.arma_tools.gui;
+package org.asdfgamer.arma_tools.controll.guicontroller;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
@@ -8,8 +9,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.stage.Stage;
+import org.asdfgamer.arma_tools.gui.ShopMenu;
 
-public class AuswahlfensterController implements Initializable
+public class AuswahlfensterController extends Controller 
 {
     private final static Logger LOG = Logger.getLogger(AuswahlfensterController.class.getName());
     
@@ -30,7 +33,10 @@ public class AuswahlfensterController implements Initializable
     
     @FXML
     private Button btnLogs;
-
+    
+    @FXML
+    private Button btnShops;
+    
     @FXML
     private void handleBtnCloseAction(ActionEvent event)
     {
@@ -59,6 +65,20 @@ public class AuswahlfensterController implements Initializable
     private void handleBtnLogsAction(ActionEvent event)
     {
         LOG.fine("Der Button btnLogs wurde gedrückt.");
+    }
+    
+    @FXML
+    private void handleBtnShopsAction(ActionEvent event)
+    {
+        Stage stage = new Stage();
+        try {
+            Stage thisStage = (Stage)btnShops.getScene().getWindow();
+            ShopMenu confstage = new ShopMenu(stage,thisStage);
+        } catch (IOException ex) {
+            LOG.warning("Es gab ein Problem beim öffnen der Configseite");
+            ex.printStackTrace();
+            stage.close();
+        }
     }
 
     @Override

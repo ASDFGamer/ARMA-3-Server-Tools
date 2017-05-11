@@ -49,7 +49,7 @@ public class Auswahlfenster extends Application
         Parent root;
         try
         {
-            root = FXMLLoader.load(getClass().getResource("/fxml/Scene.fxml"));
+            root = FXMLLoader.load(getClass().getResource("/fxml/Auswahlfenster.fxml"));
         } catch (IOException ex)
         {
             LOG.log(Level.SEVERE, "Es konnte die Auswahlfenster.fxml nicht geladen werden.", ex);

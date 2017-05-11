@@ -16,6 +16,12 @@
  */
 package org.asdfgamer.arma_tools.controll.shop;
 
+import org.asdfgamer.arma_tools.model.config.Shop;
+import org.asdfgamer.arma_tools.model.config.ShopItems;
+import org.asdfgamer.arma_tools.model.config.ShopKategorie;
+import org.asdfgamer.arma_tools.model.config.ShopLevel;
+import org.asdfgamer.arma_tools.model.config.VarType;
+import org.asdfgamer.arma_tools.model.config.ShopItem;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -24,7 +30,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.asdfgamer.arma_tools.model.shop.*;
+import org.asdfgamer.hilfreich.Convertable;
 
 /**
  * Dies lädt die Config_* Datei.
@@ -43,20 +49,18 @@ public class Shoploader
      * <p>
      */
     static private final String CHARSETNAME = "UTF-8";
+    private final static Logger LOG = Logger.getLogger(Shoploader.class.getName());
 
     private Shop currentShop;
-    
+
     private ShopItems currentShopItems;
-    
-    private final String name;
 
     private ShopKategorie kategorie = null;
+    private final String name;
 
     private LoadStates state = LoadStates.nichts;
-    
-    private int zeilennummer = 0;
 
-    private final static Logger LOG = Logger.getLogger(Shoploader.class.getName());
+    private int zeilennummer = 0;
 
     public Shoploader(String filepath)
     {
@@ -69,21 +73,101 @@ public class Shoploader
     {
         return this.kategorie;
     }
-    
+
+    private boolean createItem(String textzeile)
+    {
+        String text = textzeile.substring(textzeile.indexOf("\"") + 1);
+        String itemname = text.substring(1, text.indexOf("\"") - 1);
+        text = text.substring(text.indexOf("\"") + 1);
+        String itemtext = text.substring(1, text.indexOf("\"") - 1);
+        text = text.substring(text.indexOf(",") + 1);
+        String priceS = text.substring(0, text.indexOf(","));
+        int price;
+        if (Convertable.toInt(priceS))
+        {
+            price = Integer.parseInt(priceS);
+        } else
+        {
+            LOG.warning("Der Preis des Items in der Zeile " + this.zeilennummer + " kann nicht in eine Zahl umgewandelt werden.");
+            return false;
+        }
+        text = text.substring(text.indexOf(",") + 1);
+        if (text.startsWith("{"))
+        {
+            ShopLevel level = createLevel(text);
+            this.currentShopItems.addShopItem(new ShopItem(itemname, itemtext, price, level));
+        } else
+        {
+            String sellpriceS = text.substring(0, text.indexOf(","));
+            int sellprice = -1;
+            if (Convertable.toInt(sellpriceS))
+            {
+                sellprice = Integer.parseInt(sellpriceS);
+            } else
+            {
+                LOG.warning("Der Verkaufspreis des Items in der Zeile " + this.zeilennummer + " kann nicht in eine Zahl umgewandelt werden.");
+                return false;
+            }
+            this.currentShopItems.addShopItem(new ShopItem(text, itemname, price, sellprice));
+        }
+
+        return true;
+
+    }
+
+    private ShopLevel createLevel(String levelText)
+    {
+        String text = levelText.substring(levelText.indexOf("{") + 1);
+        String variable = text.substring(1, text.indexOf(","));
+        text = text.substring(text.indexOf(",") + 1);
+        String varTypeS = text.substring(1, text.indexOf(",") - 1);
+        VarType varType;
+        switch (varTypeS)
+        {
+            case "SCALAR":
+                varType = VarType.SCALAR;
+                break;
+            case "BOOL":
+                varType = VarType.BOOL;
+                break;
+            case "EQUAL":
+                varType = VarType.EQUAL;
+                break;
+            default:
+                varType = VarType.SCALAR;
+        }
+        text = text.substring(text.indexOf(",") + 1);
+        String compareTo;
+        if (text.contains(","))
+        {
+            compareTo = text.substring(0, text.indexOf(",")); //TODO vllt schauen wegen Typproblemen
+            text = text.substring(text.indexOf(",") + 1);
+            String errmessage = text.substring(text.indexOf("}"));
+            return new ShopLevel(variable, varType, compareTo, errmessage);
+        } else
+        {
+            compareTo = text.substring(0, text.indexOf("}")); //TODO vllt schauen wegen Typproblemen
+            return new ShopLevel(variable, varType, compareTo);
+        }
+    }
+
     /**
-     * Diese Methode gibt den Klassennamen aus einer Klassendeklaration zurück ( class ASDF \{ wird zu ASDF).
+     * Diese Methode gibt den Klassennamen aus einer Klassendeklaration zurück (
+     * class ASDF \{ wird zu ASDF).
+     *
      * @param textzeile Die Zeile mit dem Klassennamen.
+     *
      * @return Der Klassenname.
      */
     private String getClassname(String textzeile)
     {
-        String classname = textzeile.replaceAll("\\s+","");
-        return classname.substring(5,classname.length()-1);
+        String classname = textzeile.replaceAll("\\s+", "");
+        return classname.substring(5, classname.length() - 1);
     }
 
-    private String getInhalt(String textzeile)
+    private String getText(String textzeile)
     {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return textzeile.substring(textzeile.indexOf("\""), textzeile.indexOf("\"", textzeile.indexOf("\"") + 1));
     }
 
     private boolean interpretiereZeile(String zeile)
@@ -114,27 +198,27 @@ public class Shoploader
             {
                 LOG.warning("In Zeile " + this.zeilennummer + " ist ein Interner Fehler aufgetreten, da der state gleich null ist (in interpretiereZeile()).");
                 return false;
-            }
-            else switch (state)
+            } else
             {
-                case nichts:
-                    this.kategorie = new ShopKategorie(getClassname(textzeile));
-                    this.state = LoadStates.Kategorie;
-                    return true;
-                case Kategorie:
-                    this.currentShop =new Shop(getClassname(textzeile));
-                    this.state = LoadStates.Shop;
-                    return true;
-                default:
-                    LOG.warning("In der Zeile " + this.zeilennummer + " darf keine Klassendeklaration stehen("+ textzeile + ").");
-                    return false;
+                switch (state)
+                {
+                    case nichts:
+                        this.kategorie = new ShopKategorie(getClassname(textzeile));
+                        this.state = LoadStates.Kategorie;
+                        return true;
+                    case Kategorie:
+                        this.currentShop = new Shop(getClassname(textzeile));
+                        this.state = LoadStates.Shop;
+                        return true;
+                    default:
+                        LOG.warning("In der Zeile " + this.zeilennummer + " darf keine Klassendeklaration stehen(" + textzeile + ").");
+                        return false;
+                }
             }
-        }
-        else if (state == LoadStates.Shop)
+        } else if (state == LoadStates.Shop)
         {
             return loadShop(textzeile);
-        }
-        else if (state == LoadStates.Items)
+        } else if (state == LoadStates.Items)
         {
             return loadItems(textzeile);
         }
@@ -150,7 +234,7 @@ public class Shoploader
             String zeile;
             while ((zeile = reader.readLine()) != null)
             {
-                this.zeilennummer ++;
+                this.zeilennummer++;
                 if (!interpretiereZeile(zeile))
                 {
                     LOG.severe("Das Laden der Datei wird wegen einem kritischen Fehler abgebrochen!");
@@ -167,33 +251,47 @@ public class Shoploader
 
     private boolean loadItems(String textzeile)
     {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (textzeile.startsWith("{"))
+        {
+            createItem(textzeile);
+            return true;
+        } else if (textzeile.startsWith("};"))
+        {
+            this.currentShop.addShopItems(currentShopItems);
+            this.state = LoadStates.Kategorie;
+            return true;
+        }
+        LOG.warning("Die Zeile " + this.zeilennummer + " kann nicht als Inhalt eines Itemsets eines Shops interpretiert werden (" + textzeile + ").");
+        return false;
     }
 
     private boolean loadShop(String textzeile)
     {
         if (textzeile.startsWith("title"))
         {
-            this.currentShop.addTitle(getInhalt(textzeile));
-        }
-        else if (textzeile.startsWith("license"))
-        {
-            this.currentShop.addLicense(getInhalt(textzeile));
-        }
-        else if (textzeile.startsWith("side"))
-        {
-            this.currentShop.addSide(getInhalt(textzeile));
-        }
-        else if ((textzeile.replaceAll("\\s+","")).contains("[]={"))//uniforms, headgear, goggles,...
-        {
-            this.currentShopItems = new ShopItems();
-            this.state= LoadStates.Items;
+            this.currentShop.addTitle(getText(textzeile));
             return true;
-        }
-        else if (textzeile.startsWith("};"))
+        } else if (textzeile.startsWith("license"))
+        {
+            this.currentShop.addLicense(getText(textzeile));
+            return true;
+        } else if (textzeile.startsWith("side"))
+        {
+            this.currentShop.addSide(getText(textzeile));
+            return true;
+        } else if (textzeile.startsWith("level"))
+        {
+            this.currentShop.addShopLevel(createLevel(textzeile));
+            return true;
+        } else if ((textzeile.replaceAll("\\s+", "")).contains("[]={"))//uniforms, headgear, goggles,...
+        {
+            this.currentShopItems = new ShopItems(textzeile.substring(0, textzeile.indexOf("[]") - 1));
+            this.state = LoadStates.Items;
+            return true;
+        } else if (textzeile.startsWith("};"))
         {
             this.kategorie.addShop(currentShop);
-            this.state=LoadStates.Kategorie;
+            this.state = LoadStates.Kategorie;
             return true;
         }
         LOG.warning("Die Zeile " + this.zeilennummer + " kann nicht als Inhalt eines Shops interpretiert werden (" + textzeile + ").");
